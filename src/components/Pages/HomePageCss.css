@@ -114,7 +114,7 @@ body{
 
 /*chatsList*/
 .chatsList{
-    height: 960px;
+    height: 957px;
     width: 460px;
     overflow-x: hidden;
     overflow-y: scroll;
