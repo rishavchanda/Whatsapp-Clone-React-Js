@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import  firebase from "firebase";
 var firebaseConfig = {
     apiKey: "AIzaSyDedtmNx-cfWiyleVcb9Sm9x8R77fGUZoo",
     authDomain: "whatsapp-clone-rishav.firebaseapp.com",
@@ -9,7 +9,5 @@ var firebaseConfig = {
     measurementId: "G-87WVDGQBKE"
   };
   // Initialize Firebase
-  firebase.analytics();
   firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  export { db };
+  export default firebase;

@@ -10,8 +10,8 @@ const UseStyles = makeStyles((theme) => ({
         },
     },
     large: {
-        width: theme.spacing(4.8),
-        height: theme.spacing(4.8),
+        width: theme.spacing(7),
+        height: theme.spacing(7),
     },
 }));
 const contactCards = () => {
@@ -28,9 +28,10 @@ const contactCards = () => {
                         </div>
                         <div className="contactText">dzghsdf fdyhsdfhdfjd dfh</div>
                     </div>
-                    <div className="dividerRow" />
+                    
                 </div>
             </div>
+            <div className="dividerRow" />
         </div>
     );
 };

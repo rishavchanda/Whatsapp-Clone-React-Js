@@ -16,13 +16,9 @@ const UseStyles = makeStyles((theme) => ({
         },
     },
     small: {
-        width: theme.spacing(3.2),
-        height: theme.spacing(3.2),
-    },
-    large: {
-        width: theme.spacing(7),
-        height: theme.spacing(7),
-    },
+        width: theme.spacing(5.5),
+        height: theme.spacing(5.5),
+    }
 }));
 
 const chats = () => {
@@ -35,21 +31,21 @@ const chats = () => {
                     <div className="titleChat">Rishav Chanda</div>
                 </div>
                 <div className="topIcons">
-                    <SearchIcon className="Icons margin-icon" style={{ fontSize: "18px" }} />
-                    <MoreVertIcon className="Icons margin-icon" style={{ fontSize: "18px" }} />
+                    <SearchIcon className="Icons margin-icon" style={{ fontSize: "28px" }} />
+                    <MoreVertIcon className="Icons margin-icon" style={{ fontSize: "28px" }} />
                 </div>
             </div>
             <div className="chatsSection">
 
             </div>
             <div class="bottomTextBox">
-                <InsertEmoticonIcon className="Icons margin-icon-chat" style={{ fontSize: "20px" }} />
-                <AttachFileIcon className="Icons margin-icon-chat" style={{ fontSize: "20px" }} />
+                <InsertEmoticonIcon className="Icons margin-icon-chat" style={{ fontSize: "32px" }} />
+                <AttachFileIcon className="Icons margin-icon-chat" style={{ fontSize: "32px" }} />
                 <div className="TypeBox">
                     <input type="text" placeholder="Type a message" />
                 </div>
-                <SendIcon className="Icons margin-icon-chat" style={{ fontSize: "20px", display: "none" }} />
-                <MicIcon className="Icons margin-icon-chat" style={{ fontSize: "20px" }} />
+                <SendIcon className="Icons margin-icon-chat" style={{ fontSize: "32px", display: "none" }} />
+                <MicIcon className="Icons margin-icon-chat" style={{ fontSize: "32px" }} />
             </div>
         </div>
     );
