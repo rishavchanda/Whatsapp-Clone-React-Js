@@ -3,7 +3,7 @@ body{
 }
 
 .containerLogin{
-    width: 400px;
+    width: 320px;
     background-color: var(--contactBackground);
     text-align: center;
     padding: 10px;

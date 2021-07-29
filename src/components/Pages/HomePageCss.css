@@ -48,10 +48,11 @@ body{
 .dividerRow{
     background-color: var(--divider) !important;
     height: 1px !important;
+    width: 100%;
 }
 .container{
-    height: 1080px;
-    width: 1550px;
+    max-height: 847px;
+    width: 1390px;
     margin-top: 5px;
     background-color: var(--primary);
     display: flex;
@@ -59,25 +60,25 @@ body{
 
 /*Contact list css*/
 .contactListContainer{
-    width: 460px;
+    width: 418px;
     background-color: var(--primary);
 }
 
 .topBar{
-    height: 52px;
+    height: 39px;
     background-color: transparent;
     display: flex;
     justify-content: space-between;
-    padding-left: 14px;
-    margin-top: 10px;
-    margin-bottom: 6px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top:10px;
+    padding-bottom: 10px;
 }
 .topIcons{
-    padding-top: 12px;
     display: flex;
 }
 .margin-icon{
-    margin-right: 26px;
+    padding: 8px;
 }
 /*icons*/
 .Icons{
@@ -114,8 +115,9 @@ body{
 
 /*chatsList*/
 .chatsList{
-    height: 957px;
-    width: 460px;
+    height: 100%;
+    width: 100%;
+    padding-bottom: 10px;
     overflow-x: hidden;
     overflow-y: scroll;
     background-color: var(--contactBackground);
@@ -123,7 +125,7 @@ body{
 
 /*contactCards*/
 .contactCardsContainer{
-    width: 460px;
+    width: 100%;
 }
 .contactCardsContainer :hover{
     background-color: var(--divider);
@@ -140,7 +142,7 @@ body{
 }
 
 .cardTexts{
-    width: 365px;
+    width: 100%;
     background-color: transparent;
     margin-left: 12px;
 }
@@ -153,6 +155,7 @@ body{
     min-width: 50px;
     font-size: 12px !important;
     padding-left: 5px;
+    padding-right: 10px;
     text-align: end;
     color: var(--secondaryTextColor);
 }
@@ -176,7 +179,7 @@ body{
 
 /*Chats Container*/
 .chatsContainer{
-    width: 1200px;
+    width: 977px;
     background-color: var(--textBox);
 }
 .titleChat{
@@ -187,8 +190,8 @@ body{
     color: var(--primaryTextColor);
 }
 .chatsSection{
-    width: 1100px;
-    height: 940px;
+    width: 100%;
+    height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
     background: url('../../images/whatsappBackground.jpg');
@@ -196,16 +199,25 @@ body{
 
 .bottomTextBox{
     background-color:var(--textBox);
-    margin: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
     display: flex;
+    justify-content:space-between;
 }
 .margin-icon-chat{
     margin-left: 10px;
-    margin-top: 6px;
+    margin-top: 5px;
     padding: 5px;
 }
+.boxIcon{
+    display: flex;
+    margin-right: 10px;
+    margin-right: 18px;
+}
 .TypeBox{
-   margin-left: 18px;
+    width: 100%;
    border-radius: 30px;
    padding-right: 10px;
    padding-left: 18px;
@@ -214,7 +226,7 @@ body{
    background-color: var(--searchBarColor);
 }
 .TypeBox input{
-    width:860px;
+    width: 100%;
     outline: none;
     border: none;
     font-size: 18px;

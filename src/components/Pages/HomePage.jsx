@@ -10,7 +10,6 @@ const HomePage = () => {
     const {uid} = useParams();
     return (
         <div className="container">
-            <h1>{uid}</h1>
             <ContactList
               UID={uid}
             />
