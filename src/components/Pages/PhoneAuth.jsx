@@ -2,72 +2,99 @@ import React, { useState } from 'react';
 import './PhoneAuthCss.css';
 import WhatsappLogo from "../../images/whatsapp-logo.png"
 import firebase from '../../firebase-Config'
+import { useHistory } from "react-router-dom";
 
-const LoginPage = () => {
-    const [PhoneNumber, setPhoneNumber] = useState();
-    const [OTPcode, setOTPcode] = useState();
-    const setupRecaptcha = () => {
+class LoginPage extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            showPhoneText: true,
+            showOtpText: false
+        }
+    }
+
+    onChangeHandler = (event) => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value,
+        });
+    };
+
+    setupRecaptcha = () => {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
             'size': 'invisible',
             'callback': (response) => {
                 // reCAPTCHA solved, allow signInWithPhoneNumber.
                 console.log('recapta resolved')
-                onSignInSubmit();
+                this.onSignInSubmit();
             },
             defaultCountry: "IN",
         });
     }
 
-    const onSignInSubmit = (event) => {
+    onSignInSubmit = (event) => {
         event.preventDefault();
-        setupRecaptcha();
-        const phoneNumber = `+91${PhoneNumber}`;
+        this.setupRecaptcha();
+        const phoneNumber = `+91${this.state.phoneNumber}`;
         console.log(phoneNumber);
         const appVerifier = window.recaptchaVerifier;
         firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
             .then((confirmationResult) => {
                 window.confirmationResult = confirmationResult;
+                this.setState({ showPhoneText: false })
+                this.setState({ showOtpText: true })
             }).catch((error) => {
                 alert('Please try again OTP not sent');
                 window.location.reload()
             });
     }
-    const getOtp = (e) => {
+    getOtp = (e) => {
         e.preventDefault();
-        const code = OTPcode;
+        const code = this.state.OTPcode;
         window.confirmationResult.confirm(code).then((result) => {
             // User signed in successfully.
             const user = result.user;
-            console.log('signed in');
-            // ...
+            const uid = user.uid;
+            this.login(uid)
         }).catch((error) => {
             alert('Wrong Otp');
             window.location.reload();
         });
     }
-    return (
-        <div className="containerLogin">
-            <img src={WhatsappLogo} className="Logo" />
-            <div className="titelLogin">
-                Login to Whatsapp
+    login = (uid) => {
+        this.props.history.push(`/details-page/${uid}`);
+    };
+    render() {
+        return (
+            <div className="containerLogin">
+                <img src={WhatsappLogo} className="Logo" />
+                <div className="titelLogin">
+                    Login to Whatsapp
+                </div>
+                {this.state.showPhoneText ?
+                    <div style={{ display: "block" }}>
+                        <div className="title">Enter Your Phone Number Below</div>
+                        <div id="sign-in-button"></div>
+                        <form onSubmit={this.onSignInSubmit}>
+                            <input type="text" placeholder="+91-12345-67890" class="number" name="phoneNumber" onChange={this.onChangeHandler} required="required" />
+                            <button className="button" type="submit">Continue</button>
+                        </form>
+                    </div>
+                    : null}
+                {this.state.showOtpText ?
+                    <div style={{ display: "block" }}>
+                        <div className="title">Enter OTP send to Mobile Number</div>
+                        <form onSubmit={this.getOtp}>
+                            <input type="text" placeholder="123456" class="number" name="OTPcode" onChange={this.onChangeHandler} required="required" />
+                            <button className="button" type="submit">Verify</button>
+                        </form>
+                    </div>
+                    : null
+                }
             </div>
-            <div style={{ display: "block" }}>
-                <div className="title">Enter Your Phone Number Below</div>
-                <div id="sign-in-button"></div>
-                <form onSubmit={onSignInSubmit}>
-                    <input type="text" placeholder="+91-12345-67890" class="number" value={PhoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required="required" />
-                    <button className="button" type="submit">Continue</button>
-                </form>
-            </div>
-            <div style={{ display: "block" }}>
-                <div className="title">Enter OTP send to Mobile Number</div>
-                <form onSubmit={getOtp}>
-                    <input type="text" placeholder="123456" class="number" value={OTPcode} onChange={(e) => setOTPcode(e.target.value)} required="required" />
-                    <button className="button" type="submit">Verify</button>
-                </form>
-            </div>
-        </div>
-    );
+        );
+    };
+
 };
 
 export default LoginPage;

@@ -20,7 +20,7 @@ const UseStyles = makeStyles((theme) => ({
     }
 }));
 
-const contactList = () => {
+const contactList = (props) => {
     const classes = UseStyles();
     return (
         <div className="contactListContainer">
