@@ -234,3 +234,95 @@ body{
     color: var(--primaryTextColor);
     background-color:transparent;
  }
+
+
+ @media screen and (max-width: 1024px) {
+     body{
+         overflow-x: hidden;
+     }
+    .container{
+        max-height: 1000px;
+        width: 890px !important;
+    }
+ }
+
+ @media screen and (max-width: 900px) {
+    .container{
+        max-height: 1210px;
+        width: 790px !important;
+    }    
+    .chatsContainer{
+        width: 60%;
+        background-color: var(--textBox);
+    }
+    .contactListContainer{
+        width: 40.1%;
+        background-color: var(--primary);
+    }
+ }
+
+ @media screen and (max-width: 768px) {
+    .container{
+        max-height: 790px;
+        width: 680px !important;
+    }    
+    .chatsContainer{
+        width: 60%;
+        background-color: var(--textBox);
+    }
+    .contactListContainer{
+        width: 40.1%;
+        background-color: var(--primary);
+    }
+ }
+
+ @media screen and (max-width: 700px) {
+    .container{
+        max-height: 860px;
+        width: 680px !important;
+    }    
+    .chatsContainer{
+        width: 65%;
+        background-color: var(--textBox);
+    }
+    .contactListContainer{
+        width: 40.1%;
+        background-color: var(--primary);
+    }
+ }
+
+ @media screen and (max-width: 500px) {
+     body{
+         overflow-x: scroll;
+     }
+    .container{
+        max-height: 560px;
+        height: 490px;
+        width: 360px !important;
+    }    
+    .chatsContainer{
+        width: 100%;
+        background-color: var(--textBox);
+    }
+    .contactListContainer{
+        width: 90%;
+        background-color: var(--primary);
+    }
+    .titleChat{
+        width: 180px;
+        font-size: 12px;
+        padding: 14px;
+        padding-left: 10px;
+        font-weight: 600;;
+    }
+    
+.margin-icon-chat{
+    margin-left: 5px;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+.boxIcon{
+    display: flex;
+    margin-right: 5px;
+}
+ }
