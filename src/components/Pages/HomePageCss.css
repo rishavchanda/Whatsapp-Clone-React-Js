@@ -60,7 +60,7 @@ body{
 
 /*Contact list css*/
 .contactListContainer{
-    width: 418px;
+    width: 30.1%;
     background-color: var(--primary);
 }
 
@@ -79,6 +79,7 @@ body{
 }
 .margin-icon{
     padding: 8px;
+    margin-left: 10px;
 }
 /*icons*/
 .Icons{
@@ -117,7 +118,7 @@ body{
 .chatsList{
     height: 100%;
     width: 100%;
-    padding-bottom: 10px;
+    padding-bottom: 14px;
     overflow-x: hidden;
     overflow-y: scroll;
     background-color: var(--contactBackground);
@@ -179,13 +180,13 @@ body{
 
 /*Chats Container*/
 .chatsContainer{
-    width: 977px;
+    width: 70%;
     background-color: var(--textBox);
 }
 .titleChat{
-    margin-top: 14px;
-    margin-left: 18px;
     font-size: 18px;
+    padding: 10px;
+    padding-left: 18px;
     font-weight: 600;
     color: var(--primaryTextColor);
 }
