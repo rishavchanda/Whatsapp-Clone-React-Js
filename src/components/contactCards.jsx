@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from "../firebase-Config"
 
 const UseStyles = makeStyles((theme) => ({
     root: {
@@ -14,22 +15,32 @@ const UseStyles = makeStyles((theme) => ({
         height: theme.spacing(7),
     },
 }));
-const contactCards = (props) => {
+const ContactCards = (props) => {
     const classes = UseStyles();
+    const db = firebase.firestore();
+
+    const [user,setUser] = useState([]);
+    
+    useEffect(() => {
+        fetchUserDetails();
+    }, []);
+    const fetchUserDetails = async () => {
+        db.collection("Users").doc(props.userId).get()
+        .then(snapshot => setUser(snapshot.data()));
+    }
     return (
         <>
         <div className="contactCardsContainer">
             <div className="contactCard">
-                <Avatar className={classes.large} src="https://web.whatsapp.com/pp?e=https%3A%2F%2Fpps.whatsapp.net%2Fv%2Ft61.24694-24%2F150487284_949671329187245_2215871401401544621_n.jpg%3Fccb%3D11-4%26oh%3D6ca2894440c518cabc9b5f695d18afcb%26oe%3D610616F7&t=s&u=918902029392%40c.us&i=1621765318&n=%2BFiy8vhJGyJGPihYmfDfLYZmhYMhsyL7as5joWRtMEw%3D" />
+                <Avatar className={classes.large} src={user.image} />
                 <div className="cardTexts">
                     <div>
                         <div className="cardHeading">
-                            <div className="contactName">Rishav</div>
+                            <div className="contactName">{user.name}</div>
                             <div className="cardTime">2:00 PM</div>
                         </div>
                         <div className="contactText">dzghsdf fdyhsdfhdfjd dfh</div>
                     </div>
-                    
                 </div>
             </div>
             <div className="dividerRow" />
@@ -38,4 +49,4 @@ const contactCards = (props) => {
     );
 };
 
-export default contactCards;
+export default ContactCards;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -6,6 +6,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import SearchIcon from '@material-ui/icons/Search';
 import ContactCards from './contactCards';
+import firebase from '../firebase-Config'
+import { useParams } from 'react-router-dom';
 
 const UseStyles = makeStyles((theme) => ({
     root: {
@@ -20,12 +22,38 @@ const UseStyles = makeStyles((theme) => ({
     }
 }));
 
-const contactList = (props) => {
+const ContactList = (props) => {
+    const {uid} = useParams();
     const classes = UseStyles();
+    const [User,setUser] = useState([]);
+    const [ChatRoom,setChatRooms] = useState([]);
+    
+    useEffect(() => {
+        fetchUserDetails();
+        fetchChatRooms();
+    }, []);
+
+    const db = firebase.firestore();
+    const fetchUserDetails = async () => {
+        db.collection("Users").doc(uid).get()
+        .then(snapshot => setUser(snapshot.data()));
+
+    }
+    const fetchChatRooms = async () => {
+        db.collection("Users").doc(uid).collection("Rooms").onSnapshot(function (querySnapshot) {
+            setChatRooms(
+                querySnapshot.docs.map((doc) => ({
+                    chatId: doc.data().chatId,
+                    userId:doc.data().userId,
+                    timestamp:doc.data.timestamp
+                })),
+            );
+        });
+    }
     return (
         <div className="contactListContainer">
             <div className="topBar">
-                <Avatar className={classes.small} src="https://web.whatsapp.com/pp?e=https%3A%2F%2Fpps.whatsapp.net%2Fv%2Ft61.24694-24%2F150487284_949671329187245_2215871401401544621_n.jpg%3Fccb%3D11-4%26oh%3D6ca2894440c518cabc9b5f695d18afcb%26oe%3D610616F7&t=s&u=918902029392%40c.us&i=1621765318&n=%2BFiy8vhJGyJGPihYmfDfLYZmhYMhsyL7as5joWRtMEw%3D" />
+                <Avatar className={classes.small} src={User.image}/>
                 <div className="topIcons">
                     <DonutLargeIcon className="Icons margin-icon" style={{ fontSize: 24}}/>
                     <ChatIcon className="Icons margin-icon" style={{ fontSize: 24}}/>
@@ -43,41 +71,15 @@ const contactList = (props) => {
             <div className="dividerRow" />
 
             <div className="chatsList">
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
-                <ContactCards/>
+            {ChatRoom.map((chatRoom) => (
+                <ContactCards
+                  userId= {chatRoom.userId}
+                  chatId= {chatRoom.chatId}
+                />
+            ))}
             </div>
         </div>
     );
 };
 
-export default contactList;
+export default ContactList;

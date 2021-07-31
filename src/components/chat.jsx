@@ -7,6 +7,7 @@ import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import MicIcon from '@material-ui/icons/Mic';
 import SendIcon from '@material-ui/icons/Send';
+import { useParams } from 'react-router-dom';
 
 const UseStyles = makeStyles((theme) => ({
     root: {
@@ -21,8 +22,9 @@ const UseStyles = makeStyles((theme) => ({
     }
 }));
 
-const chats = () => {
+const Chats = () => {
     const classes = UseStyles();
+    const {chatId} = useParams();
     return (
         <div className="chatsContainer">
             <div className="topBar">
@@ -55,4 +57,4 @@ const chats = () => {
     );
 };
 
-export default chats;
+export default Chats;

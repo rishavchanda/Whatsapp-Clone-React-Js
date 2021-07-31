@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './PhoneAuthCss.css';
 import WhatsappLogo from "../../images/whatsapp-logo.png"
 import firebase from '../../firebase-Config'
-import { useHistory } from "react-router-dom";
 
 class LoginPage extends React.Component {
     constructor() {

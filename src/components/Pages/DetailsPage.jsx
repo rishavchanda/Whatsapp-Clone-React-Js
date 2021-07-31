@@ -22,7 +22,8 @@ const DetailsPage = () => {
     const classes = UseStyles();
     const [image, setImage] = useState(null);
     const [name, setName] = useState("");
-    const {uid} = useParams();
+    var imageUrl;
+    const { uid } = useParams();
 
     const handleChange = (e) => {
         if (e.target.files[0]) {
@@ -32,10 +33,15 @@ const DetailsPage = () => {
     console.log(image)
 
     const handleUpload = () => {
-        var metadata = {
-            contentType: 'image/jpeg',
-        };
-        const uploadImageTask = firebase.storage().ref('profilePictures').child("rishav").put(image, metadata);
+
+    }
+
+    const login = (uid) => {
+        window.location.href = `https://localhost:3000/${uid}`
+    };
+    const UploadDetails = (e) => {
+        e.preventDefault();
+        const uploadImageTask = firebase.storage().ref('profilePictures').child(uid).put(image);
         uploadImageTask.on(
             "state_changed",
             snapshot => { },
@@ -43,42 +49,41 @@ const DetailsPage = () => {
                 console.log(error);
             },
             () => {
-                firebase.storage().ref('Profile Pictures')
-                    .child("rishav")
+                firebase.storage().ref('profilePictures')
+                    .child(uid)
                     .getDownloadURL()
                     .then(url => {
                         //console.log(url)
+                        imageUrl = url;
+                        imageUrl = String(imageUrl);
+                        console.log(imageUrl)
+                        const db = firebase.firestore();
+                        const user = firebase.auth().currentUser;
+                        if (user) {
+                            if (user.uid === uid) {
+                                db.collection("Users").doc(user.uid).set({
+                                    name: name,
+                                    image: imageUrl,
+                                    phoneNumber : user.phoneNumber
+                                })
+                                    .then(() => {
+                                        console.log("Document successfully written!");
+                                        login(user.uid);
+                                    })
+                                    .catch((error) => {
+                                        alert("Error writing document: ", error);
+                                    });
+                            } else {
+                                alert('Sorry No User Exist')
+                                window.location.href = "https://whatsapp-clone-rishav.web.app/"
+                            }
+                        } else {
+                            alert('please sign in first')
+                            window.location.href = "https://whatsapp-clone-rishav.web.app/"
+                        }
                     })
             }
         )
-    }
-
-    const login = (uid) => {
-        window.location.href = `https://whatsapp-clone-rishav.web.app/${uid}`
-    };
-    const UploadDetails = (e) => {
-        e.preventDefault();
-        const db = firebase.firestore();
-        const user = firebase.auth().currentUser;
-        if (user) {
-            if(user.uid === uid){
-                db.collection("Users").doc(user.uid).set({
-                    name: name,
-                })
-                    .then(() => {
-                        console.log("Document successfully written!");
-                        login(user.uid);
-                    })
-                    .catch((error) => {
-                        alert("Error writing document: ", error);
-                    });
-            }else{
-                alert('Sorry No User Exist')
-            }
-        }else{
-            alert('please sign in first')
-        }
-
     }
     return (
         <>
