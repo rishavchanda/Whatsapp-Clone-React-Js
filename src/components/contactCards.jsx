@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import firebase from "../firebase-Config"
+import firebase from "../firebase-Config";
+import { Link } from 'react-router-dom';
 
 const UseStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +30,7 @@ const ContactCards = (props) => {
         .then(snapshot => setUser(snapshot.data()));
     }
     return (
-        <>
+        <a style={{textDecoration: "none;"}} href={`/${props.uid}/${props.chatId}/${props.userId}`}>
         <div className="contactCardsContainer">
             <div className="contactCard">
                 <Avatar className={classes.large} src={user.image} />
@@ -45,7 +46,7 @@ const ContactCards = (props) => {
             </div>
             <div className="dividerRow" />
         </div>
-        </>
+        </a>
     );
 };
 

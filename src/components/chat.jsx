@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -8,6 +8,8 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 import MicIcon from '@material-ui/icons/Mic';
 import SendIcon from '@material-ui/icons/Send';
 import { useParams } from 'react-router-dom';
+import firebase from "../firebase-Config"
+import Message from "./message"
 
 const UseStyles = makeStyles((theme) => ({
     root: {
@@ -24,13 +26,53 @@ const UseStyles = makeStyles((theme) => ({
 
 const Chats = () => {
     const classes = UseStyles();
-    const {chatId} = useParams();
+    const {uid,chatId,userId} = useParams();
+    const db = firebase.firestore();
+
+    const [Room,setRoom] = useState([]);
+    const [user,setUser] = useState([]);
+
+
+    const [message,setMessage] = useState("");
+    const [sendBy,setSendBy] = useState("");
+    
+    useEffect(() => {
+        fetchRoomDetails();
+        fetchUserDetails();
+    }, []);
+    const fetchRoomDetails = async () => {
+        db.collection("chatRooms").doc(chatId).collection("chats").orderBy("timestamp", "asc").onSnapshot(function (querySnapshot) {
+            setRoom(
+                querySnapshot.docs.map((doc) => ({
+                    message: doc.data().message,
+                    sendBy:doc.data().sendBy,
+                    timestamp:doc.data.timestamp
+                })),
+            );
+        });
+    }
+    
+    const fetchUserDetails = async () => {
+        db.collection("Users").doc(userId).get()
+        .then(snapshot => setUser(snapshot.data()));
+    }
+
+    const sendMessage = (e) =>{
+        e.preventDefault();
+        console.log(message)
+        db.collection("chatRooms").doc(chatId).collection("chats").add({
+            message: message,
+            sendBy: uid,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+        setMessage("");
+    }
     return (
         <div className="chatsContainer">
             <div className="topBar">
                 <div style={{ display: "flex" }}>
-                    <Avatar className={classes.small} src="https://web.whatsapp.com/pp?e=https%3A%2F%2Fpps.whatsapp.net%2Fv%2Ft61.24694-24%2F150487284_949671329187245_2215871401401544621_n.jpg%3Fccb%3D11-4%26oh%3D6ca2894440c518cabc9b5f695d18afcb%26oe%3D610616F7&t=s&u=918902029392%40c.us&i=1621765318&n=%2BFiy8vhJGyJGPihYmfDfLYZmhYMhsyL7as5joWRtMEw%3D" />
-                    <div className="titleChat">Rishav Chanda</div>
+                    <Avatar className={classes.small} src={user.image} />
+                    <div className="titleChat">{user.name}</div>
                 </div>
                 <div className="topIcons">
                     <SearchIcon className="Icons margin-icon" style={{ fontSize: "24px" }} />
@@ -38,6 +80,15 @@ const Chats = () => {
                 </div>
             </div>
             <div className="chatsSection">
+                {
+                     Room.map((room) => (
+                         <Message
+                          message = {room.message}
+                          sendBy = {room.sendBy}
+                          currentUser = {uid}
+                          timestamp = {room.timestamp}
+                         />
+                    ))}
 
             </div>
             <div class="bottomTextBox">
@@ -46,11 +97,11 @@ const Chats = () => {
                     <AttachFileIcon className="Icons margin-icon-chat" style={{ fontSize: "26px" }} />
                 </div>
                 <div className="TypeBox">
-                    <input type="text" placeholder="Type a message" />
+                    <input type="text" placeholder="Type a message" required="required" value={message} onChange={(e) => setMessage(e.target.value)}/>
                 </div>
                 <div className="boxIcon">
-                    <SendIcon className="Icons margin-icon-chat" style={{ fontSize: "26px", display: "none" }} />
-                    <MicIcon className="Icons margin-icon-chat" style={{ fontSize: "26px" }} />
+                    <SendIcon className="Icons margin-icon-chat" style={{ fontSize: "26px"}} onClick={sendMessage} />
+                    <MicIcon className="Icons margin-icon-chat" style={{ fontSize: "26px", display: "none" }} />
                 </div>
             </div>
         </div>

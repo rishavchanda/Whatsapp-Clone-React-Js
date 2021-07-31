@@ -75,6 +75,7 @@ const ContactList = (props) => {
                 <ContactCards
                   userId= {chatRoom.userId}
                   chatId= {chatRoom.chatId}
+                  uid = {uid}
                 />
             ))}
             </div>
