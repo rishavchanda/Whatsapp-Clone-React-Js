@@ -122,6 +122,7 @@ const ContactList = (props) => {
                 {showSearchedPerson ?
                     <SearchedPersonCard
                     ChatPersonId={newChatPersonId}
+                    uid={uid}
                     />
                     : null
                 }

@@ -32,9 +32,6 @@ const DetailsPage = () => {
     }
     console.log(image)
 
-    const handleUpload = () => {
-
-    }
 
     const login = (uid) => {
         window.location.href = `https://whatsapp-clone-rishav.web.app/${uid}`
