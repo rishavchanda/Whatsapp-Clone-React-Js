@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from "../firebase-Config";
+import { AddIcCall } from '@material-ui/icons';
 
 const UseStyles = makeStyles((theme) => ({
     root: {
@@ -19,51 +20,50 @@ const SearchedPersonCards = (props) => {
     const classes = UseStyles();
     const db = firebase.firestore();
 
-    const [user,setUser] = useState([]);
-    
+    const [user, setUser] = useState([]);
+
     useEffect(() => {
         fetchUserDetails();
-        addNewChatRoom();
     }, []);
     const fetchUserDetails = async () => {
         db.collection("Users").doc(props.ChatPersonId).get()
-        .then(snapshot => setUser(snapshot.data()));
+            .then(snapshot => setUser(snapshot.data()));
     }
-    const addNewChatRoom = async () => {
+    const addNewChatRoom = () => {
         db.collection("chatRooms").doc(`${props.uid}_${props.ChatPersonId}`).set({
-               timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
         }).then(
-            addChatIdToUser()
+            db.collection("Users").doc(props.uid).collection("Rooms").doc(props.ChatPersonId).set({
+                chatId: `${props.uid}_${props.ChatPersonId}`,
+                userId: `${props.ChatPersonId}`
+            }).then(
+                db.collection("Users").doc(props.ChatPersonId).collection("Rooms").doc(props.uid).set({
+                    chatId: `${props.uid}_${props.ChatPersonId}`,
+                    userId: `${props.uid}`
+                }).then(addChatIdToUser)
+            )
         )
     }
 
     const addChatIdToUser = () => {
-        db.collection("User").doc(props.uid).collection("Rooms").add({
-            chatId:`${props.uid}_${props.ChatPersonId}`,
-            userId: `${props.ChatPersonId}`
-        })
-        db.collection("User").doc(props.ChatPersonId).collection("Rooms").add({
-            chatId:`${props.uid}_${props.ChatPersonId}`,
-            userId: `${props.uid}`
-        })
         window.location.href = `https://whatsapp-clone-rishav.web.app/${props.uid}/${props.uid}_${props.ChatPersonId}/${props.ChatPersonId}`
     }
     return (
         <>
-        <div className="contactCardsContainer">
-            <div className="contactCard">
-                <Avatar className={classes.large} src={user.image} />
-                <div className="cardTexts">
-                    <div>
-                        <div className="cardHeading">
-                            <div className="contactName">{user.name}</div>
+            <div className="contactCardsContainer">
+                <div className="contactCard" onClick={addNewChatRoom}>
+                    <Avatar className={classes.large} src={user.image} />
+                    <div className="cardTexts">
+                        <div>
+                            <div className="cardHeading">
+                                <div className="contactName">{user.name}</div>
+                            </div>
+                            <div className="contactText">Start Chatting</div>
                         </div>
-                        <div className="contactText">Start Chatting</div>
                     </div>
                 </div>
+                <div className="dividerRow" />
             </div>
-            <div className="dividerRow" />
-        </div>
         </>
     );
 };
