@@ -116,7 +116,54 @@ a{
 .Icons-search{
     color: var(--searchContentColor);
 }
+.addNew{
+    padding: 1px;
+    background-color: var(--contactBackground);
+}
+.addNew p{
+    text-align: center;
+    color: var(--primaryTextColor);
+    font-size: 18px;
+    font-weight: 500;
+    padding: 12px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: var(--searchContentColor);
+}
+.addNew :hover{
+    background-color: var(--primary);
+}
 
+.searchBox{
+    display: flex;
+    justify-content: space-between;
+}
+.searchPhoneNumber{
+    width: 100%;
+    padding: 12px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: var(--primary);
+}
+.searchPhoneNumber input{
+    width: 100%;
+    font-size: 18px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: white;
+}
+.buttonSearch{
+    height: min-content;
+    margin: 10px 10px 0px 0px;
+    border-radius: 10px;
+    background-color: var(--primaryChatsColor);
+    color: white;
+    padding: 14px;
+}
+.buttonSearch :hover{
+    background-color: var(--searchContentColor);
+}
 /*chatsList*/
 .chatsList{
     height: 800px;
